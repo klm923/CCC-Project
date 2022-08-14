@@ -1,0 +1,9 @@
+<h3>新規投稿</h3>
+<%= form_for @claim do |f| %>
+<div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title, :size => 140 %>
+</div>
+<%= f.submit "投稿する" %>
+<% end %>
+<%= link_to "投稿一覧に戻る", claims_path %>
