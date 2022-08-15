@@ -1,1 +1,15 @@
 <%= link_to "新規投稿ページへ", new_claim_path %>
+
+<h3>一覧</h3>
+<div class="claims-container">
+    <% @claims.each do |t| %>
+    <div class="claim">
+        <%= t.title %>
+        <%= t.created_at %>
+        <%= t.user.email %>
+        <%= link_to "詳細へ", claim_path(t.id) %>
+        <%= link_to "編集する", edit_claim_path(t.id) %>
+    </div>
+    <% end %>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+</div>
