@@ -1,0 +1,26 @@
+<h1>users#show</h1>
+<p>名前 : <%= @user.name %></p>
+<p>メールアドレス : <%= @user.email %></p>
+<p>プロフィール : <%= @user.profile %></p>
+
+<% if current_user.id == @user.id %>
+    <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<h2>ユーザーの投稿一覧</h2>
+<% @user. claims.each do |t| %>
+    <%= t.user.name %>
+    <%= t.title %>
+<% end %>
+
+<!-- 以下はいいね機能を実装している場合-->
+
+<h2>ユーザーがいいねした投稿一覧</h2>
+<% @user.liked_claims.each do |t| %>
+    <%= t.user.name %>
+    <%= t.title %>
+<% end %> 
+
+<!-- ここまで-->
+
+<%= link_to "一覧に戻る", claims_path %>

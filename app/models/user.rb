@@ -4,5 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable
 
-  has_many :claims
+  has_many :claims, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :liked_claims, through: :likes, source: :claim
+
+  def already_liked?(claim)
+    self.likes.exists?(claim_id: claim.id)
+  end
+  
+  validates :name, presence: true #追記
+  validates :profile, length: { maximum: 200 } #追記
 end
