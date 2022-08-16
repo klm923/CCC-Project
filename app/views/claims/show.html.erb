@@ -1,8 +1,25 @@
 <h3>詳細</h3>
 <div class="claim">
-  <p><%= @claim.title %></p>
-  <p><%= @claim.created_at %></p>
+    <p><%= @claim.title %></p>
+    <p><%= @claim.created_at %></p>
+
+    <% if user_signed_in? %>
+    <% if current_user.already_liked?(@claim) %>
+        <%= link_to claim_like_path(@claim), method: :delete do %>
+            <i class="fas fa-heart"></i><%= @claim.likes.count %>
+        <% end %>
+    <% else %>
+        <%= link_to claim_likes_path(@claim), method: :post do %>
+            <i class="far fa-heart"></i><%= @claim.likes.count %>
+        <% end %>
+    <% end %>
+<% else %>
+    <i class="far fa-heart"></i><%= @claim.likes.count %>
+<% end %>
+
 </div>
-<%= button_to "削除する", claim_path(@claim.id), method: :delete %>
+<% if user_signed_in? && current_user.id == @claim.user_id %> 
+<%= link_to "削除する", claim_path(@claim.id), method: :delete %>
 <%= link_to "編集する", edit_claim_path(@claim.id) %>
+<% end %>
 <%= link_to "一覧に戻る", claims_path %>
