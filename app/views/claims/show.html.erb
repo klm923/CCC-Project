@@ -1,7 +1,18 @@
 <h3>詳細</h3>
+
+<%
+=begin%>
+ <div class="parent_claim">
+<h3>親投稿</h3>
+<p><%= @parent_claim.title %></p>
+</div> 
+<%
+=end%>
+
 <div class="claim">
     <p><%= @claim.title %></p>
     <p><%= @claim.created_at %></p>
+    <p><%= @claim.id %></p>
 
     <% if user_signed_in? %>
     <% if current_user.already_liked?(@claim) %>
@@ -16,7 +27,38 @@
 <% else %>
     <i class="far fa-heart"></i><%= @claim.likes.count %>
 <% end %>
+</div>
 
+<div class="comment-wrapper">
+    <p>コメント一覧</p>
+    <% @questions.each do |c| %>
+    <div>
+        <%= c.user.email unless c.user.blank? %>
+        <br>
+        <%= c.content %>
+    </div>
+        <br>
+    <% end %>
+
+    <% if user_signed_in? %>
+        <%= form_for @child_claim do |f| %>
+            <%= f.text_area :title %>
+            <%= f.hidden_field :parent_id, :value => params[:id]%>
+            <%= button_tag type: "submit" do %>
+                <i class="far fa-comments"></i> 子要素投稿する
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% if user_signed_in? %>
+        <%= form_with(model: [@claim, @question], local: true) do |f| %>
+            <%= f.text_area :content %>
+            <%= button_tag type: "submit" do %>
+                <i class="far fa-comments"></i> 質問する
+            <% end %>
+        <% end %>
+    <% end %>
+    
 </div>
 <% if user_signed_in? && current_user.id == @claim.user_id %> 
 <%= link_to "削除する", claim_path(@claim.id), method: :delete %>
