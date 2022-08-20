@@ -10,6 +10,7 @@ class ClaimsController < ApplicationController
     end
     def create
         claim = Claim.new(claim_params)
+        claim.parent_id = params[id]
         claim.user_id = current_user.id
         if claim.save
             redirect_to :action => "index"
@@ -20,6 +21,17 @@ class ClaimsController < ApplicationController
     
     def show
         @claim = Claim.find(params[:id])
+        
+
+        @question = Question.new
+        @questions = @claim.questions
+
+        @child_claim = Claim.new
+        
+        
+        parent_id = ParentChild.find_by(child_id:params[:id])
+        @parent_claim = Claim.find_by(id:parent_id)
+
     end
 
     def edit

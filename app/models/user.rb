@@ -12,6 +12,8 @@ class User < ApplicationRecord
     self.likes.exists?(claim_id: claim.id)
   end
   
-  validates :name, presence: true #追記
-  validates :profile, length: { maximum: 200 } #追記
+  validates :name, presence: true 
+  validates :profile, length: { maximum: 200 } 
+
+  has_many :questions, dependent: :destroy
 end

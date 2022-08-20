@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root 'statics#top'
   resources :claims do
     resources :likes, only: [:create, :destroy]
+    resources :questions, only: [:create]
   end
   resources :users, only: [:show]
+  resources :parent_children, only: [:create, :destroy]
+  
 end
