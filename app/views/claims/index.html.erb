@@ -15,13 +15,12 @@
                 <i class="far fa-heart"></i><%= t.likes.count %>
             <% end %>
         <% end %>
-<% else %>
-    <i class="far fa-heart"></i><%= t.likes.count %>
-<% end %>
-        <%= t.created_at %>
-        <%= t.user.email %>
-        <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
-        <%= link_to "詳細へ", claim_path(t.id) %>
+        <% else %>
+            <i class="far fa-heart"></i><%= t.likes.count %>
+        <% end %>
+            <%= t.created_at %>
+            <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+            <%= link_to "詳細へ", claim_path(t.id) %>
         <% if user_signed_in? && current_user.id == t.user_id %>  
             <%= link_to "編集する", edit_claim_path(t.id) %>
         <% end %> 
