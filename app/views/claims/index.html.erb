@@ -29,5 +29,7 @@
     <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
     <% if user_signed_in? %>
         <%= link_to "マイページへ", user_path(current_user.id) %>　
+<%= link_to "一覧に戻る", claims_path %>
+
     <% end %>
 </div>
