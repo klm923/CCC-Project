@@ -1,10 +1,3 @@
-document.addEventListener('turbolinks:load', () => {
-    alert("test")
-    console.log("おそらくロードでjs読み込むはず")
-});
-function clickBtn() {
-    alert('設置したボタン押すことでjs読み込み');
-};
 
 window.onload = function () {
     alert("トップページ読み込みでロードでjs読み込み");
