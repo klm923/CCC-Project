@@ -1,6 +1,9 @@
 class LikesController < ApplicationController
     def create
-        like = current_user.likes.create(claim_id: params[:claim_id]) #user_idとtweet_idの二つを代入
+        like = Like.new(claim_id: params[:claim_id], user_id: current_user.id)
+        like.save
+        # ↑↓どちらでもよい
+        # like = current_user.likes.create(claim_id: params[:claim_id]) #user_idとtweet_idの二つを代入
         redirect_back(fallback_location: root_path)
     end
     

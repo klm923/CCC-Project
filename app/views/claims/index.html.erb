@@ -6,15 +6,15 @@
     <div class="claim">
         <%= t.title %>
         <% if user_signed_in? %>
-        <% if current_user.already_liked?(t) %>
-            <%= link_to claim_like_path(id: t.id, claim_id: t.id), method: :delete do %>
-                <i class="fas fa-heart"></i><%= t.likes.count %>
+            <% if current_user.already_liked?(t) %>
+                <%= link_to claim_like_path(id: t.id, claim_id: t.id), method: :delete do %>
+                    <i class="fas fa-heart"></i><%= t.likes.count %>
+                <% end %>
+            <% else %>
+                <%= link_to claim_likes_path(claim_id: t.id), method: :post  do %>
+                    <i class="far fa-heart"></i><%= t.likes.count %>
+                <% end %>
             <% end %>
-        <% else %>
-            <%= link_to claim_likes_path(id: t.id, claim_id: t.id), method: :post do %>
-                <i class="far fa-heart"></i><%= t.likes.count %>
-            <% end %>
-        <% end %>
         <% else %>
             <i class="far fa-heart"></i><%= t.likes.count %>
         <% end %>

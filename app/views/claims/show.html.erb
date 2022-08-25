@@ -12,7 +12,7 @@
                 <i class="fas fa-heart"></i><%= t.likes.count %>
             <% end %>
         <% else %>
-            <%= link_to claim_likes_path(id: t.id, claim_id: t.id), method: :post do %>
+            <%= link_to claim_likes_path(claim_id: t.id), method: :post do %>
                 <i class="far fa-heart"></i><%= t.likes.count %>
             <% end %>
         <% end %>
@@ -102,15 +102,12 @@
 <h1>こっからテスト</h1>
 
 
-<% asset_path('miserables.json') %> 
-
-
 <meta charset="utf-8">
 
 <style>
     .links line {
-        stroke: #999;
-        stroke-opacity: 0.6;
+        stroke: #555;
+        stroke-opacity: 1;
     }
     .nodes circle, .nodes rect {
         stroke: #fff;
@@ -122,7 +119,9 @@
 </style>
 
 <svg width="1200" height="600"></svg>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<%# 「views/layouts/application.html.erb」で読み込むように変更 %>
+<%# <script src="https://d3js.org/d3.v7.min.js"></script> %>
 
 <script>
     var svg = d3.select("svg"),
@@ -132,18 +131,21 @@
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
     var simulation = d3.forceSimulation()
+        .force("collide",d3.forceCollide().radius(35).iterations(16) ) //衝突値の設定
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
         .force("charge", d3.forceManyBody().strength(-250))
         .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("x", d3.forceX().x(width / 2).strength(0.1))  //x方向に戻る力
+        .force("x", d3.forceX().x(width / 2).strength(0.2))  //x方向に戻る力
         .force("y", d3.forceY().y(height / 2).strength(0.1))  //y方向に戻る力;
 
-    // d3.json("<%= asset_path 'miserables.json' %>").then(function(graph) {
+    var g = svg.append("g");
+
+// d3.json("<%= asset_path 'miserables.json' %>").then(function(graph) {
     d3.json("list").then(function(graph) {
         // if (error) throw error;
 
-        var link = svg.append("g")
-            .attr("class", "links")
+        var link = g.append("g")
+            .attr("class", "links zoom")
             .selectAll("line")
             .data(graph.links)
             .enter().append("line")
@@ -161,9 +163,9 @@
         //         .on("drag", dragged)
         //         .on("end", dragended));
 
-        var nodebase = svg.append("g");
+        var nodebase = g.append("g");
         var node = nodebase
-            .attr("class", "nodes")
+            .attr("class", "nodes zoom")
             .selectAll("rect")
             .data(graph.nodes)
             .enter().append("rect")
@@ -217,6 +219,16 @@
                 .attr("y", function(d) { return d.y - 10 + 10; });
         }
     });
+
+    // zoom対応
+    var zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on('zoom', function(event) {
+            g.selectAll('.zoom')
+            .attr('transform', event.transform);
+    });
+
+    svg.call(zoom);
 
     function dragstarted(event) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
