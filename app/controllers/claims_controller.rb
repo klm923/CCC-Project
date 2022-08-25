@@ -52,7 +52,7 @@ class ClaimsController < ApplicationController
     end
 
     def list
-        data = [
+        data = {
             "nodes": [
                 {"id": "Myriel", "group": 1},
                 {"id": "Napoleon", "group": 1},
@@ -388,7 +388,7 @@ class ClaimsController < ApplicationController
                 {"source": "Mme.Hucheloup", "target": "Gavroche", "value": 1},
                 {"source": "Mme.Hucheloup", "target": "Enjolras", "value": 1}
             ]
-            ]
+        }
         render :json => data
     end
 

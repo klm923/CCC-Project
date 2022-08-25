@@ -1,13 +1,13 @@
 
-window.onload = function () {
-    alert("トップページ読み込みでロードでjs読み込み");
-};
+// window.onload = function () {
+//     alert("トップページ読み込みでロードでjs読み込み");
+// };
 
 window.clickBtn = function(){
     alert('グローバル関数として定義してみた');
 };
 
-onclick="alert('test');"
+// onclick="alert('test');"
 
 // $('.btn').click(function() {
 //     alert('設置したボタン押すことでjs読み込み2');
